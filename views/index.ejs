@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autosuche</title>
+  </head>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+ 
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/media.css">
+
+
+  <script>
+    // Überprüfen, ob der Benutzer bereits angemeldet ist
+    var lastLoginCookie = document.cookie.replace(/(?:(?:^|.*;\s*)lastLogin\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    if (lastLoginCookie) {
+        // Der Benutzer ist bereits angemeldet, prüfen Sie, ob 30 Tage vergangen sind
+        var lastLoginDate = new Date(lastLoginCookie);
+        var now = new Date();
+        var thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 Tage in Millisekunden
+
+        if (lastLoginDate < thirtyDaysAgo) {
+            // 30 Tage sind vergangen, fordern Sie den Benutzer erneut zur Anmeldung auf
+            promptPassword();
+        }
+    } else {
+        // Der Benutzer ist nicht angemeldet, fordern Sie ihn zur Anmeldung auf
+        promptPassword();
+    }
+
+    // Funktion zur Abfrage des Passworts und Setzung des Cookies
+    function promptPassword() {
+        var password = prompt("Bitte geben Sie das Passwort ein:");
+
+        // Überprüfen des Passworts
+        if (password !== "besterverkäufer") {
+            // Falls das Passwort falsch ist, wird die Seite neu geladen, um den Zugriff zu verweigern
+            alert("Falsches Passwort. Bitte versuchen Sie es erneut.");
+            window.location.reload();
+        } else {
+            // Setzen des Cookies für die Anmeldung
+            var now = new Date();
+            var thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 Tage in Millisekunden
+            document.cookie = "lastLogin=" + now.toUTCString() + "; expires=" + thirtyDaysFromNow.toUTCString() + "; path=/";
+        }
+    }
+</script>
+
+
+  <body>
+
+  
+    <div class="preloader">
+        <!-- <img src="images/loader.gif" alt=""> -->
+        <div class="wrapper">
+          <div class="loader">
+             <div class="dot"></div>
+          </div>
+          <div class="loader">
+             <div class="dot"></div>
+          </div>
+          <div class="loader">
+             <div class="dot"></div>
+          </div>
+          <div class="loader">
+             <div class="dot"></div>
+          </div>
+          <div class="loader">
+             <div class="dot"></div>
+          </div>
+          <div class="loader">
+             <div class="dot"></div>
+          </div>
+       </div>
+       <div class="pretext">
+          Bitte warten
+       </div>
+
+
+    </div>
+
+
+    <header style="background-color: #191970; padding:5px; position: relative;">
+      <i id="menu" class="fa-solid fa-bars mobile"></i>
+      <center><h1 style="color: white;">Autosuche V1</h1></center>
+    </header>
+
+
+
+    <div class="container mainSection">
+      <div class="main">
+          <div class="SearchGrp ">
+
+              <form class="allFliter">
+
+                  <div class="mobile">
+                      <img class="closeBtn" src="images/cancel.png" alt="">
+                  </div>
+
+                      <h3 class="text-center mb-4">Filteroptionen:</h3>
+                  
+                      <div class="form-group">
+                          <!-- <label for="make">Marke:</label> -->
+                          <input type="text" class="form-control" id="make"  placeholder="Marke eingeben">
+                      </div>
+                 
+                  
+                      <div class="form-group">
+                          <!-- <label for="model">Modell:</label> -->
+                          <input type="text" class="form-control" id="model" placeholder="Modell eingeben">
+                      </div>
+                 
+                  
+                      <div class="form-group">
+                          <!-- <label for="milage">Kilometerstand:</label> -->
+                          <input type="number" class="form-control" id="milage" placeholder="Kilometerstand eingeben">
+                      </div>
+                  
+                      <div class="form-group">
+                          <!-- <label for="milage">Baujahr:</label> -->
+                          <input type="number" class="form-control" id="year" placeholder="Baujahr eingeben">
+                      </div>
+
+                      <div class="form-group">
+                        <!-- <label for="fueltype">Treibstoffart:</label> -->
+                        <select class="form-control" id="fueltype">
+                          <option value="" selected disabled> Kraftstoffart auswählen</option>
+                          <option value="Benzin">Benzin</option>
+                          <option value="Diesel">Diesel</option>
+                          <option value="Elektro">Elektro</option>
+                          <!-- <option value="Hybrid Elektro/Diesel">Hybrid Elektro/Diesel</option> -->
+                        </select>
+                      </div>
+                  
+                      <div class="form-group">
+
+                      <label for="euroAmount">Preis:</label>
+                          <input type="text" id="euroAmount" class="form-control" name="euroAmount" placeholder="Euro-Betrag eingeben">
+                    </div>
+
+                       
+                      <div class="privateModeDiv">
+                        <label for="isPrivate" class=" privateLabel">Nur private Angebote</label>
+                        <div class="content">
+                          <label class="switch m-0">
+                            <input type="checkbox" id="isPrivate" checked="">
+                            <small></small>
+                          </label>
+                        </div>
+                      </div>
+                          
+                      <div class="mt-3">
+                          <button id="searchCar" type="submit" class="btn btn-primary btn-block">Suchen</button>
+                      </div>
+                      <div  style="display:none;"class="mt-3">
+                          <button id="autoSearch" type="button" class="btn btn-outline-primary btn-block">Automatische Suche starten
+                          </button>
+                          <button id="stopAutoSearch" type="button" class="btn btn-outline-danger btn-block">Automatische Suche stoppen
+                          </button>
+                      </div>
+                  
+              </form>
+      
+          </div>
+      
+          <div class="rightSide">
+
+              
+        
+            <div id="searchCountDisplay">Suchanfragen: 0</div>
+
+         <div id="listings">
+
+    </div>
+    </div>
+      </div>
+    </div>
+    
+
+<style>
+
+.carContainer {
+    display: flex;
+    align-items: center;
+}
+
+.ImgSection {
+    width: 150px; /* Breite des Bildes */
+    margin-right: 20px; /* Abstand zwischen dem Bild und den Details */
+}
+
+
+
+.CarDetail {
+    flex-grow: 1; /* Flexbox: Fülle den verfügbaren Platz aus */
+}
+
+</style>
+      
+<script>
+    function openGoogleSearch(title, postcode, districtname, price) {
+        // Überprüfe und entferne das Wort "undefined" aus den Argumenten
+        title = removeUndefined(title);
+        postcode = removeUndefined(postcode);
+        districtname = removeUndefined(districtname);
+        price = removeUndefined(price);
+
+        // Erstellen der Suchabfrage
+        var searchQuery = title + " " + postcode + " " + districtname + " " + price;
+
+        // Erstellen der Google-Such-URL
+        var googleSearchUrl = "https://www.google.com/search?q=" + encodeURIComponent(searchQuery);
+        
+        // Öffnen des Google-Suchlinks in einem neuen Tab
+        window.open(googleSearchUrl, '_blank');
+    }
+
+    // Funktion zum Entfernen des Worts "undefined"
+    function removeUndefined(value) {
+    
+        console.log(value);
+        if (value == null) {
+            console.log("value is null");
+            return "";
+        }
+
+        if (value == "undefined") {
+            console.log("value is null");
+            return "";
+        }
+        return value;
+    }
+
+    
+async function deleteCar(link) {
+    console.log('handed link:', link)
+    try {
+        const response = await fetch('/deleteCar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ link })
+        });
+        if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+        } else {
+            throw new Error('Failed to delete car');
+        }
+    } catch (error) {
+        console.error(error);
+        alert('An error occurred while deleting the car');
+    }
+}
+</script>
+
+
+
+<script>
+
+    var searchCount = 0;
+    
+    document.getElementById("isPrivate").addEventListener("change", ()=>{
+      document.getElementById('searchCar').click();
+      console.log(document.getElementById('isPrivate').checked)
+    });
+    
+    
+      var  form = document.querySelector("form");
+      var listingsDiv = document.querySelector("#listings");
+      
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+        $('.preloader').css('display', 'block');
+        
+        var  make = document.querySelector("#make").value;
+        var model = document.querySelector("#model").value;
+        var MILEAGE_TO = document.querySelector("#milage").value;
+        var year = document.querySelector("#year").value;
+        var fueltype = document.querySelector("#fueltype").value;
+        // console.log(fueltype)
+        
+        var  minPrice = 0;
+        var maxPrice = document.getElementById('euroAmount').value;
+        
+        console.log(maxPrice);
+    
+        var obj =  {
+            'make' : make,
+            'model' : model,
+            'minPrice' : minPrice,
+            'maxPrice' : maxPrice,
+            'MILEAGE_TO' : MILEAGE_TO? MILEAGE_TO : null,
+            'rows': 10000,
+            'YEAR_MODEL_FROM': year? year :null,
+            'fueltype': fueltype,
+        }
+        makeApiCall(obj, "search");
+    
+      });
+    
+    
+      // Globale Variable zur Speicherung der vorherigen API-Antwort
+      var previousResponse = null;
+    
+        // Funktion zum Vergleichen der Antworten und Abspielen des Signaltons
+        function compareAndPlaySignal(response) {
+            if (previousResponse !== null && JSON.stringify(previousResponse) !== JSON.stringify(response)) {
+                // Antwort hat sich geändert, spielen Sie den Signalton ab (hier angenommen, dass Sie eine Funktion für das Abspielen des Tons haben)
+                playSignalTone();
+            }
+            // Aktualisieren Sie die vorherige Antwort mit der aktuellen Antwort
+            previousResponse = response;
+        }
+    
+        function playSignalTone() {
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // 440 Hz (A4)
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        setTimeout(function() {
+            oscillator.stop();
+        }, 500); // Stoppen Sie den Ton nach 500 Millisekunden
+    }
+    
+    
+    
+
+
+   
+    
+      function makeApiCall(obj, val) {
+        const url = (val === 'init') ? '/init' : `/search?make=${obj.make}&model=${obj.model}&minPrice=${obj.minPrice}&maxPrice=${obj.maxPrice}&MILEAGE_TO=${obj.MILEAGE_TO}&YEAR_MODEL_FROM=${obj.YEAR_MODEL_FROM}&rows=${obj.rows}&fueltype=${obj.fueltype}`;
+    
+        // Zeige den Ladebalken an
+        searchCount++; // Erhöhe die Suchanfragezähler
+        document.getElementById('searchCountDisplay').textContent = 'Suchanfragen: ' + searchCount; // Aktualisiere die Anzeige
+    
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(listings => {
+                updateListings(listings);
+    
+                compareAndPlaySignal(listings);
+    
+                // Verstecke den Ladebalken, nachdem die Daten geladen wurden
+                $('.preloader').css('display', 'none');
+            })
+            .catch(error => {
+                handleApiError(error);
+                // Verstecke den Ladebalken im Falle eines Fehlers
+                $('.preloader').css('display', 'none');
+            });
+    
+            var  make = document.querySelector("#make").value;
+            var model = document.querySelector("#model").value;
+            var MILEAGE_TO = document.querySelector("#milage").value;
+            var year = document.querySelector("#year").value;
+            var fueltype = document.querySelector("#fueltype").value;
+            console.log(fueltype)
+    
+            var  minPrice = 0;
+            var maxPrice = document.getElementById('euroAmount').value;
+    
+    
+            var obj =  {
+            'make' : make,
+            'model' : model,
+            'minPrice' : minPrice,
+            'maxPrice' : maxPrice,
+            'MILEAGE_TO' : MILEAGE_TO? MILEAGE_TO : null,
+            'rows': 1000,
+            'YEAR_MODEL_FROM': year? year :null,
+            'fueltype': fueltype,
+            }
+            
+            setTimeout(() => {
+                makeApiCall(obj, "search");
+            }, 3500);      
+    
+    
+    }
+    
+    
+    
+    function updateListings(listings) {
+        const listingsDiv = document.getElementById('listings');
+    
+        if (!listingsDiv) {
+            console.error('ListingsDiv not found');
+            return;
+        }
+    
+        listingsDiv.innerHTML = "";
+    
+        if (listings.length === 0) {
+            listingsDiv.innerHTML = `
+                <h3 class="my-5 text-center" style="color:#191970">
+                    <div class="my-5"> <img src="images/notFound.png" alt="" height=280;> </div>
+                    Keine Ergebnisse gefunden.
+                </h3>`;
+            $('.preloader').css('display', 'none');
+            return;
+        }
+    
+        const ul = document.createElement("ul");
+        ul.setAttribute('class', 'AllCars');
+    
+        let cnt = 0;
+        listings.forEach(listing => {
+            const newContent = (document.getElementById('isPrivate').checked && listing.isprivate === 0) ? '' : `<div class="privateCar"><img src="images/private.png" title="private" alt="" /></div>`;
+            if (document.getElementById('isPrivate').checked && listing.isprivate === 0) {
+                return;
+            }
+    
+            const imgUrl = (listing && listing.mmo) ? `https://cache.willhaben.at/mmo/${listing.mmo}` : 'images/noCarImage.jpg';
+            const imgSrc = `<img src="${imgUrl}" alt="" onerror="this.onerror=null;this.src='images/noCarImage.jpg';">`;
+    
+            const li = document.createElement("li");
+            li.setAttribute("class", "SingleCard");
+            li.innerHTML = `
+            <a style="text-decoration:none; color:black;" href="https://www.willhaben.at/iad/${listing.seo_url}" target="_blank">
+                 <div class="carContainer">
+                  
+                    <div class="ImgSection">
+            ${imgSrc}
+            ${newContent}
+        </div>
+        <div class="CarDetail">
+    
+            <div class="grp1">
+                <h2 style="font-size:15px;">${listing.heading}, ${listing['car_model/model']}</h2>
+            </div>
+    
+            <div class="grp2">
+                <div> <b style="color:#191970;">${listing.price_for_display ? listing.price_for_display : ''}</b> </div>
+                <div> ${listing.mileage ? listing.mileage + ' km' : ''}</div>
+                <div> ${listing.year_model ? listing.year_model : ''}</div>
+                <div> ${listing['engine/fuel_resolved'] ? listing['engine/fuel_resolved'] : ''}</div>
+                <div> ${listing.address ? listing.address : ''}</div>
+                <div> ${listing.district && listing.postcode ? listing.district + ', ' + listing.postcode : ''}</div>
+        
+            </div>
+    
+    
+        </div>
+    </div>
+    </a>
+    <button style="border:none; background:#191970; color: white; padding:3px; border-radius:5px;"onclick="openGoogleSearch('${listing.address}', '${listing.postcode}', '${listing.district}')">Google Suche</button>
+    <button onclick="deleteCar('https://www.willhaben.at/iad/${listing.seo_url}')">Fahrzeug löschen</button>
+    
+    `;
+            ul.appendChild(li);
+            cnt++;
+        });
+    
+        $('.preloader').css('display', 'none');
+    
+        if (cnt === 0 && listings.length !== 0) {
+            listingsDiv.innerHTML = `
+                <h3 class="my-5 text-center" style="color:#191970">
+                    <div class="my-5"> <img src="images/notFound.png" alt="" height=280;> </div>
+                    Keine Ergebnisse gefunden.
+                </h3>`;
+        }
+    
+        listingsDiv.appendChild(ul);
+    }
+    
+    
+    function handleApiError(error) {
+      const listingsDiv = document.getElementById('listings');
+        listingsDiv.innerHTML = `Es ist ein Fehler aufgetreten: ${error.message}`;
+    }
+    
+    
+    
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hier wird der Zugriff auf das Element listingsDiv sicher gestellt
+        const listingsDiv = document.getElementById('listings');
+    
+        // Überprüfung, ob das Element gefunden wurde
+        if (!listingsDiv) {
+            console.error('ListingsDiv not found');
+            return;
+        }
+    
+        // Nun können Sie auf listingsDiv zugreifen und darauf operieren
+    });
+    
+    
+    </script>
+    
+
+
+<script>
+  $(document).ready(function(){
+
+    $('#stopAutoSearch').css('display', 'none');
+    // $(".preloader").delay(2000).fadeOut("slow");
+    // $('.preloader').css('display', 'none');
+    var intervalId;
+
+  
+
+      $("#menu").click(function(){
+          $(".SearchGrp").addClass('active');
+      });
+      $(".closeBtn").click(function(){
+          $(".SearchGrp").removeClass('active');
+      });
+      $("button").click(function(){
+          $(".SearchGrp").removeClass('active');
+      });
+     
+  });
+
+  
+    var  make = document.querySelector("#make").value;
+    var model = document.querySelector("#model").value;
+    var MILEAGE_TO = document.querySelector("#milage").value;
+    var year = document.querySelector("#year").value;
+    var fueltype = document.querySelector("#fueltype").value;
+    console.log(fueltype)
+
+    var  minPrice = 0;
+    var maxPrice = document.getElementById('euroAmount').value;
+
+
+    var obj =  {
+    'make' : make,
+    'model' : model,
+    'minPrice' : minPrice,
+    'maxPrice' : maxPrice,
+    'MILEAGE_TO' : MILEAGE_TO? MILEAGE_TO : null,
+    'rows': 1000,
+    'YEAR_MODEL_FROM': year? year :null,
+    'fueltype': fueltype,
+    }
+    
+    makeApiCall(obj, "search");
+
+  // Funktion zum Speichern der Einstellungen in Cookies
+function saveSettingsToCookies() {
+    // Einstellungen aus den Eingabefeldern erfassen
+    var make = document.querySelector("#make").value;
+    var model = document.querySelector("#model").value;
+    var milage = document.querySelector("#milage").value;
+    var year = document.querySelector("#year").value;
+    var fueltype = document.querySelector("#fueltype").value;
+    var euroAmount = document.querySelector("#euroAmount").value;
+    var isPrivate = document.querySelector("#isPrivate").checked;
+
+    // Einstellungen in einem Objekt speichern
+    var settings = {
+        make: make,
+        model: model,
+        milage: milage,
+        year: year,
+        fueltype: fueltype,
+        euroAmount: euroAmount,
+        isPrivate: isPrivate
+    };
+
+    // Einstellungen als JSON in einem Cookie speichern
+    document.cookie = "settings=" + JSON.stringify(settings);
+}
+
+// Funktion zum Laden der Einstellungen aus Cookies
+function loadSettingsFromCookies() {
+    var cookies = document.cookie.split(';');
+
+    // Durch alle Cookies iterieren
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+
+        // Überprüfen, ob das Cookie die Einstellungen enthält
+        if (cookie.startsWith("settings=")) {
+            var cookieValue = cookie.substring("settings=".length);
+            var settings = JSON.parse(cookieValue);
+
+            // Einstellungen in die entsprechenden Eingabefelder einfügen
+            document.querySelector("#make").value = settings.make;
+            document.querySelector("#model").value = settings.model;
+            document.querySelector("#milage").value = settings.milage;
+            document.querySelector("#year").value = settings.year;
+            document.querySelector("#fueltype").value = settings.fueltype;
+            document.querySelector("#euroAmount").value = settings.euroAmount;
+            document.querySelector("#isPrivate").checked = settings.isPrivate;
+        }
+    }
+}
+
+// Eventlistener hinzufügen, um die Einstellungen beim Absenden des Formulars zu speichern
+document.querySelector("form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    saveSettingsToCookies();
+    // Weitere Aktionen ausführen, z.B. die Suchanfrage senden
+});
+
+// Beim Laden der Seite die gespeicherten Einstellungen aus Cookies laden
+window.addEventListener("load", function() {
+    loadSettingsFromCookies();
+    // Weitere Initialisierungen durchführen, z.B. Suchergebnisse laden
+});
+
+</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+</body>
+</html>

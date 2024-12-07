@@ -1,0 +1,83 @@
+
+@media screen and (max-width: 800px) {
+    .mobile{
+        display: block;
+    }
+  
+    #menu{
+      position: absolute;
+      top: 50%;
+    transform: translateY(-50%);
+      color: white;
+      font-size: x-large;
+    }
+  
+    .closeBtn{
+      position: absolute;
+      right: 10px;
+      top: 0;
+    }
+  
+    .SearchGrp{
+      /* flex-basis: 270px; */
+      position: fixed;
+      left: -1100px;
+      top: 0;
+      background-color: white;
+    transition: all 0.5s ease;
+    z-index: 10000;
+    height: 100vh;
+    width: 70%;
+    }
+    .SearchGrp.active{
+    left: 0;
+    transition: all 0.5s ease;
+    }
+    .SearchGrp .allFliter{
+      background-color: white;
+      margin-top: 25px;
+      /* padding: 60px 20%; */
+  
+      border-radius: 20px;
+      top: 0;
+    }
+    .rightSide{
+      flex-basis: calc(100%  );
+      margin: 25px 10px;
+    }
+  
+  
+  
+    .AllCars{
+  
+    justify-content: center;
+  
+    }
+  
+    .SingleCard{
+      flex: 0 0 calc(100% - 12px);
+    }
+  
+  
+    /* .form-group label, .newPrice{
+    font-size: x-large;
+    }
+  
+    .form-group input{
+    height: 70px;
+    font-size: x-large;
+    }
+    .allFliter button{
+    height: 70px;
+    font-size: x-large;
+    } */
+  
+  }
+  
+  
+    
+  
+  
+  @media screen and (max-width: 500px) {
+
+  }

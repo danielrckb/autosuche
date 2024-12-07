@@ -1,0 +1,27 @@
+{
+  "name": "carscraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "chrome": "^0.1.0",
+    "chromium": "^3.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "ffmpeg": "^0.0.4",
+    "ipaddr.js": "^2.1.0",
+    "mysql": "^2.18.1",
+    "puppeteer": "^22.6.1",
+    "puppeteer-chromium-resolver": "^22.0.0",
+    "willhaben": "^0.2.1",
+    "xml": "^1.0.1"
+  }
+}
